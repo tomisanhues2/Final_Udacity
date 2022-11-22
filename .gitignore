@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 #USER IGNORE
 build/
+build/*
