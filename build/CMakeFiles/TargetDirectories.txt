@@ -1,0 +1,15 @@
+/home/tomas/Documents/FinalPRoject/Final_Udacity/build/CMakeFiles/edit_cache.dir
+/home/tomas/Documents/FinalPRoject/Final_Udacity/build/CMakeFiles/rebuild_cache.dir
+/home/tomas/Documents/FinalPRoject/Final_Udacity/build/FinalProjectTest1/CMakeFiles/FinalProjectTest1.dir
+/home/tomas/Documents/FinalPRoject/Final_Udacity/build/FinalProjectTest1/CMakeFiles/edit_cache.dir
+/home/tomas/Documents/FinalPRoject/Final_Udacity/build/FinalProjectTest1/CMakeFiles/rebuild_cache.dir
+/home/tomas/Documents/FinalPRoject/Final_Udacity/build/dependencies/CMakeFiles/edit_cache.dir
+/home/tomas/Documents/FinalPRoject/Final_Udacity/build/dependencies/CMakeFiles/rebuild_cache.dir
+/home/tomas/Documents/FinalPRoject/Final_Udacity/build/dependencies/http/CMakeFiles/edit_cache.dir
+/home/tomas/Documents/FinalPRoject/Final_Udacity/build/dependencies/http/CMakeFiles/rebuild_cache.dir
+/home/tomas/Documents/FinalPRoject/Final_Udacity/build/_deps/http-build/CMakeFiles/edit_cache.dir
+/home/tomas/Documents/FinalPRoject/Final_Udacity/build/_deps/http-build/CMakeFiles/rebuild_cache.dir
+/home/tomas/Documents/FinalPRoject/Final_Udacity/build/dependencies/json/CMakeFiles/edit_cache.dir
+/home/tomas/Documents/FinalPRoject/Final_Udacity/build/dependencies/json/CMakeFiles/rebuild_cache.dir
+/home/tomas/Documents/FinalPRoject/Final_Udacity/build/_deps/json-build/CMakeFiles/edit_cache.dir
+/home/tomas/Documents/FinalPRoject/Final_Udacity/build/_deps/json-build/CMakeFiles/rebuild_cache.dir

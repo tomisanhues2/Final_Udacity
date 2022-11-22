@@ -1,0 +1,1 @@
+/usr/bin/c++  -pthread CMakeFiles/FinalProjectTest1.dir/FinalProjectTest1.cpp.o -o FinalProjectTest1  /usr/lib/x86_64-linux-gnu/libcurl.so -L/usr/local/lib -pthread -lwx_baseu_net-3.0 -lwx_gtk3u_html-3.0 -lwx_gtk3u_core-3.0 -lwx_baseu-3.0 
