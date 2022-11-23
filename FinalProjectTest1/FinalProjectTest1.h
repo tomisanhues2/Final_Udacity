@@ -43,6 +43,7 @@
 #include <HTTPRequest.hpp>
 #include <curl/curl.h>
 #include <string>
+#include <thread>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -54,63 +55,24 @@ const std::string POSTER_REQUEST_URL_START = "http://img.omdbapi.com/?apikey=" +
 /// Libcurl image download and memory
 ///////////////////////////////////////////////////////////////////////////////
 
-struct MemoryStruct
-{
-  char *memory;
-  size_t size;
-};
-
-static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb,
-                                  void *userp)
-{
-  size_t realsize = size * nmemb;
-  struct MemoryStruct *mem = (struct MemoryStruct *)userp;
-
-  mem->memory = (char *)realloc(mem->memory, mem->size + realsize + 1);
-  if (mem->memory == NULL)
-  {
-    /* out of memory! */
-    printf("not enough memory (realloc returned NULL)\n");
-    return 0;
-  }
-
-  memcpy(&(mem->memory[mem->size]), contents, realsize);
-  mem->size += realsize;
-  mem->memory[mem->size] = 0;
-
-  return realsize;
-}
-
 class ImageManager
 {
 
 public:
-  wxImage GetImageInputStream(const std::string &url)
+  wxImage GetImageInputStream(const wxString &url)
   {
-    CURL *curl;
-    CURLcode res;
-    struct MemoryStruct chunk;
+    // wxImage image;
+    // wxURL url("https://m.media-amazon.com/images/M/MV5BMjUyNTA3MTAyM15BMl5BanBnXkFtZTgwOTEyMTkyMjE@._V1_SX300.jpg");
+    // if (url.GetError() == wxURL_NOERR)
+    // {
+    //   wxInputStream *in_stream;
 
-    curl = curl_easy_init();
-    curl_easy_setopt(curl, CURLOPT_URL, url); // the img url
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);                                                  // pass the writefunction
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&chunk);                                                         // pass the stream ptr when the writefunction is called
-    res = curl_easy_perform(curl);                                                                              // start curl
+    //   in_stream = url.GetInputStream();
 
-    wxMemoryInputStream stream(chunk.memory, chunk.size);
-    wxImage image;
-    if (!image.LoadFile(stream, wxBITMAP_TYPE_PNG))
-      return NULL;
+    //   image = new wxImage(202, 300, in_stream, true);
+    // }
 
-    if (chunk.memory)
-    {
-      free(chunk.memory);
-    }
-    curl_easy_cleanup(curl);
-
-    curl_global_cleanup();
-
-    return image;
+    return NULL;
   }
 };
 
@@ -145,6 +107,7 @@ private:
   wxStaticText *genre_label1;
   wxStaticText *rated_label1;
   wxStaticText *runtime_label1;
+  wxStaticText *m_plot_label1;
 
   ImagePanel *image_panel;
 
@@ -162,6 +125,10 @@ public:
   virtual wxString GetSearchBox()
   {
     return m_textCtrl1->GetLineText(0);
+  }
+
+  wxButton* GetButton() {
+    return m_button2;
   }
 
   // SET AND GET FOR TITLE
@@ -216,16 +183,33 @@ public:
     return rated_label1->GetLabel();
   }
   // SET AND GET FOR PLOT
-  // void SetPlot(const wxString& plot) {
-  //   plot_label1->SetLabelText(plot);
-  // }
+  void SetPlot(const wxString& plot) {
+    m_plot_label1->SetLabelText(plot);
+  }
 
-  // wxString GetPlot() {
-  //   return rated_label1->GetLabel();
-  // }
-  //
+  wxString GetPlot() {
+    return m_plot_label1->GetLabel();
+  }
+
+  void Wrap(int width) {
+    m_plot_label1->Wrap(width);
+  }
+  
 
   // SET AND GET FOR IMAGE
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class Timer
+///////////////////////////////////////////////////////////////////////////////
+
+class Timer {
+    private:
+      int timer;
+  public:
+    Timer() {
+      timer = 0;
+    } 
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -3,7 +3,9 @@
 #include <stdexcept>
 #include <regex>
 namespace obj {
-	struct Movie {
+	class Movie {
+		
+		private: 
 		std::string title;
 		std::string year;
 		std::string rated;
@@ -29,5 +31,8 @@ namespace obj {
 		std::string production;
 		std::string website;
 		std::string response;
+
+		public:
+			NLOHMANN_DEFINE_TYPE_INTRUSIVE(Movie, title, year, rated,runtime, genre, director, plot);
 	};
 }
