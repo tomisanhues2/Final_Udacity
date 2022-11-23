@@ -34,7 +34,6 @@
 #include <wx/mstream.h>
 #include <wx/generic/statbmpg.h>
 
-
 #include <wx/dcclient.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -44,12 +43,14 @@
 #include <curl/curl.h>
 #include <string>
 #include <thread>
+#include <fstream>
+#include <stdio.h>
+#include <opencv2/opencv.hpp>
 
 ///////////////////////////////////////////////////////////////////////////
 
 const std::string PRIVATE_KEY = "9165ddc0";
 const std::string DATA_REQUEST_URL_START = "http://www.omdbapi.com/?apikey=" + PRIVATE_KEY + "&";
-const std::string POSTER_REQUEST_URL_START = "http://img.omdbapi.com/?apikey=" + PRIVATE_KEY + "&";
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Libcurl image download and memory
@@ -59,8 +60,41 @@ class ImageManager
 {
 
 public:
-  wxImage GetImageInputStream(const wxString &url)
+  static std::string DownloadImageToTMP(std::string &title, std::string &url)
   {
+    std::string tmp_path = std::filesystem::temp_directory_path();
+    std::string file_path = title + ".jpg";
+    std::replace(file_path.begin(), file_path.end(), ' ', '_');
+    std::string outfilename = (tmp_path + "/" + file_path);
+
+    curl_global_init(CURL_GLOBAL_ALL);
+    std::ofstream ofs(outfilename.c_str(), std::ostream::binary);
+
+    if (CURLE_OK == download_image(url, ofs))
+    {
+      std::cout << "File saved!!" << std::endl;
+    }
+
+    ofs.close();
+    curl_global_cleanup();
+
+    int down_width = 300;
+    int down_height = 200;
+    cv::Mat resize_down;
+    cv::Mat image = cv::imread(outfilename);
+    cv::resize(image, resize_down, cv::Size(202, 300), cv::INTER_LINEAR);
+
+    bool is_success = cv::imwrite(outfilename, resize_down);
+
+    if (is_success == false)
+    {
+      std::cout << "Failed to save the image" << std::endl;
+    }
+    else
+    {
+      std::cout << "Saved the image!" << std::endl;
+    }
+
     // wxImage image;
     // wxURL url("https://m.media-amazon.com/images/M/MV5BMjUyNTA3MTAyM15BMl5BanBnXkFtZTgwOTEyMTkyMjE@._V1_SX300.jpg");
     // if (url.GetError() == wxURL_NOERR)
@@ -72,26 +106,72 @@ public:
     //   image = new wxImage(202, 300, in_stream, true);
     // }
 
-    return NULL;
+    return outfilename;
   }
+
+private:
+  static size_t data_write(void *buf, size_t size, size_t nmemb, void *userp)
+  {
+    if (userp)
+    {
+      std::ostream &os = *static_cast<std::ostream *>(userp);
+      std::streamsize len = size * nmemb;
+      if (os.write(static_cast<char *>(buf), len))
+        return len;
+    }
+
+    return 0;
+  }
+
+  static CURLcode download_image(const std::string &url, std::ostream &os, long timeout = 30)
+  {
+    CURLcode code(CURLE_FAILED_INIT);
+    CURL *curl = curl_easy_init();
+
+    if (curl)
+    {
+      if (CURLE_OK == (code = curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &data_write)) && CURLE_OK == (code = curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L)) && CURLE_OK == (code = curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L)) && CURLE_OK == (code = curl_easy_setopt(curl, CURLOPT_FILE, &os)) && CURLE_OK == (code = curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout)) && CURLE_OK == (code = curl_easy_setopt(curl, CURLOPT_URL, url.c_str())))
+      {
+        code = curl_easy_perform(curl);
+      }
+      curl_easy_cleanup(curl);
+    }
+    return code;
+  }
+  /*CURL *curl;
+  FILE *fp;
+  CURLcode res;
+  std::replace(file_path.begin(), file_path.end(), ' ', '_');
+  std::string outfilename = (tmp_path + "/" + file_path);
+  curl = curl_easy_init();
+  if (curl)
+  {
+    fp = fopen(outfilename.c_str(), "wb");
+    curl_easy_setopt(curl, CURLOPT_URL, url);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
+    res = curl_easy_perform(curl);
+    curl_easy_cleanup(curl);
+    fclose(fp);
+  }
+  std::cout << tmp_path << outfilename << std::endl;
+  return NULL;
+}*/
 };
 
 class ImagePanel : public wxPanel
 {
+private:
+public:
   wxBitmap _image;
+  ImagePanel(wxFrame *parent, wxString file, wxBitmapType format);
 
-  public:
+  void PaintEvent(wxPaintEvent &evt);
+  void PaintNow();
+  void Render(wxDC &dc);
 
-    ImagePanel(wxFrame *parent, wxString file, wxBitmapType format);
-
-    void PaintEvent(wxPaintEvent &evt);
-    void PaintNow();
-    void Render(wxDC &dc);
-
-    DECLARE_EVENT_TABLE()
-
+  DECLARE_EVENT_TABLE()
 };
-
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class AppFrame
@@ -99,22 +179,32 @@ class ImagePanel : public wxPanel
 class AppFrame : public wxFrame
 {
 private:
+  wxStaticText *m_staticText1;
+  wxButton *_search_button;
   wxStaticText *m_staticText2;
-  wxTextCtrl *m_textCtrl1;
-  wxButton *m_button2;
-  wxStaticText *title_label1;
-  wxStaticText *year_label1;
-  wxStaticText *genre_label1;
-  wxStaticText *rated_label1;
-  wxStaticText *runtime_label1;
-  wxStaticText *m_plot_label1;
+  wxTextCtrl *_textCtrl;
+  wxStaticText *m_staticText81;
+  wxStaticText *m_staticText9;
+  wxStaticText *m_staticText10;
+  wxStaticText *m_staticText22;
 
   ImagePanel *image_panel;
 
 protected:
 public:
+  wxStaticText *title_label;
+  wxStaticText *year_label;
+  wxStaticText *rated_label;
+  wxStaticText *runtime_label;
+  wxStaticText *genre_label;
+  wxStaticText *directors_label;
+  wxStaticText *actors_label;
+  wxStaticText *awards_label;
+  wxStaticText *metascore_label;
+  wxStaticText *imdb_label;
+  wxStaticText *plot_label;
   AppFrame(const wxString &title);
-  AppFrame(wxWindow *parent, wxWindowID id = wxID_ANY, const wxString &title = wxEmptyString, const wxPoint &pos = wxDefaultPosition, const wxSize &size = wxSize(800, 600), long style = wxDEFAULT_FRAME_STYLE | wxTAB_TRAVERSAL);
+  AppFrame(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,600 ), long style = wxTAB_TRAVERSAL, const wxString& name = wxEmptyString );
 
   ~AppFrame();
 
@@ -124,92 +214,40 @@ public:
 
   virtual wxString GetSearchBox()
   {
-    return m_textCtrl1->GetLineText(0);
+    return _textCtrl->GetLineText(0);
   }
 
-  wxButton* GetButton() {
-    return m_button2;
-  }
-
-  // SET AND GET FOR TITLE
-  void SetTitle(const wxString &title)
+  wxButton *GetButton()
   {
-    title_label1->SetLabelText(title);
+    return _search_button;
   }
 
-  wxString GetTitle()
+  void Wrap(int width)
   {
-    return title_label1->GetLabel();
+    plot_label->Wrap(width);
   }
 
-  // SET AND GET FOR YEAR
-  void SetYear(const wxString &year)
+  // GET FOR IMAGEPanel
+  ImagePanel *GetImagePanel()
   {
-    year_label1->SetLabelText(year);
+    return image_panel;
   }
-
-  wxString GetYear()
-  {
-    return year_label1->GetLabel();
-  }
-  // SET AND GET FOR GENRE
-  void SetGenre(const wxString &genre)
-  {
-    genre_label1->SetLabelText(genre);
-  }
-
-  wxString GetGenre()
-  {
-    return genre_label1->GetLabel();
-  }
-  // SET AND GET FOR RATED
-  void SetRated(const wxString &rated)
-  {
-    rated_label1->SetLabelText(rated);
-  }
-
-  wxString GetRated()
-  {
-    return rated_label1->GetLabel();
-  }
-  // SET AND GET FOR RUNTIME
-  void SetRuntime(const wxString &runtime)
-  {
-    runtime_label1->SetLabelText(runtime);
-  }
-
-  wxString GetRuntime()
-  {
-    return rated_label1->GetLabel();
-  }
-  // SET AND GET FOR PLOT
-  void SetPlot(const wxString& plot) {
-    m_plot_label1->SetLabelText(plot);
-  }
-
-  wxString GetPlot() {
-    return m_plot_label1->GetLabel();
-  }
-
-  void Wrap(int width) {
-    m_plot_label1->Wrap(width);
-  }
-  
-
-  // SET AND GET FOR IMAGE
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class Timer
 ///////////////////////////////////////////////////////////////////////////////
 
-class Timer {
-    private:
-      int timer;
-  public:
-    Timer() {
-      timer = 0;
-    } 
+class Timer
+{
+private:
+  int timer;
+
+public:
+  Timer()
+  {
+    timer = 0;
+  }
 };
 
 ///////////////////////////////////////////////////////////////////////////////

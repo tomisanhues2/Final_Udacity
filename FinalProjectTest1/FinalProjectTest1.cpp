@@ -23,108 +23,152 @@ AppFrame::AppFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title, wxDef
     
     wxInitAllImageHandlers();
     wxFileSystem::AddHandler(new wxInternetFSHandler);
-    wxBoxSizer *b_sizer;
-    b_sizer = new wxBoxSizer(wxVERTICAL);
 
-    wxFlexGridSizer *fg_sizer1;
-    fg_sizer1 = new wxFlexGridSizer(4, 2, 0, 0);
-    fg_sizer1->SetFlexibleDirection(wxBOTH);
-    fg_sizer1->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
 
-    m_staticText2 = new wxStaticText(this, wxID_ANY, wxT("Enter a movie name"), wxDefaultPosition, wxDefaultSize, 0);
-    m_staticText2->Wrap(-1);
-    m_staticText2->SetFont(wxFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxEmptyString));
+	wxBoxSizer* bSizer1;
+	bSizer1 = new wxBoxSizer( wxVERTICAL );
 
-    fg_sizer1->Add(m_staticText2, 0, wxALL, 5);
+	wxFlexGridSizer* fgSizer1;
+	fgSizer1 = new wxFlexGridSizer( 4, 2, 0, 0 );
+	fgSizer1->SetFlexibleDirection( wxBOTH );
+	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
-    m_textCtrl1 = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(500, -1), 0);
-    m_textCtrl1->SetFont(wxFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxEmptyString));
+	m_staticText1 = new wxStaticText( this, wxID_ANY, wxT("Enter a movie name:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText1->Wrap( -1 );
+	m_staticText1->SetFont( wxFont( 16, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
 
-    fg_sizer1->Add(m_textCtrl1, 0, wxALL, 5);
+	fgSizer1->Add( m_staticText1, 0, wxALL, 5 );
 
-    m_button2 = new wxButton(this, wxID_ANY, wxT("Search"), wxDefaultPosition, wxSize(250, 30), 0);
-    m_button2->Bind(wxEVT_BUTTON, &AppFrame::OnButtonClick, this);
-    fg_sizer1->Add(m_button2, 0, wxALL, 5);
+	_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(500,-1), 0);
+	_textCtrl->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
 
-    b_sizer->Add(fg_sizer1, 1, wxSHAPED, 5);
+	fgSizer1->Add( _textCtrl, 0, wxALL, 5 );
+
+	_search_button = new wxButton( this, wxID_ANY, wxT("Search"), wxDefaultPosition, wxSize( 200,30 ), 0 );
+    _search_button->Bind(wxEVT_BUTTON, &AppFrame::OnButtonClick, this);
+	fgSizer1->Add( _search_button, 0, wxALL, 5 );
+
+
+	bSizer1->Add( fgSizer1, 1, wxTOP, 5 );
 
     //wxGridBagSizer
-    wxGridBagSizer* gb_sizer1;
-	gb_sizer1 = new wxGridBagSizer( 1, 10 );
-	gb_sizer1->SetFlexibleDirection( wxBOTH );
-	gb_sizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	gb_sizer1->SetEmptyCellSize( wxSize( -1,10 ) );
+    wxGridBagSizer* gbSizer1;
+	gbSizer1 = new wxGridBagSizer( 10, 5 );
+	gbSizer1->SetFlexibleDirection( wxBOTH );
+	gbSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    gbSizer1->SetMinSize( wxSize( 600,450 ) );
+	m_staticText2 = new wxStaticText( this, wxID_ANY, wxT("Metascore:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText2->Wrap( -1 );
+	m_staticText2->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Arial") ) );
 
-	gb_sizer1->SetMinSize( wxSize( 600,450 ) );
-	title_label1 = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0|wxBORDER_SIMPLE );
-	title_label1->Wrap( -1 );
-	title_label1->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
-	title_label1->SetMinSize( wxSize( 300,-1 ) );
+	gbSizer1->Add( m_staticText2, wxGBPosition( 5, 2 ), wxGBSpan( 1, 1 ), wxALL, 5 );
 
-	gb_sizer1->Add( title_label1, wxGBPosition( 0, 1 ), wxGBSpan( 1, 2 ), wxALL, 5 );
+	title_label = new wxStaticText( this, wxID_ANY, wxT("title_label1"), wxDefaultPosition, wxSize( 400,-1 ), 0 );
+	title_label->Wrap( -1 );
+	title_label->SetFont( wxFont( 14, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Arial") ) );
 
-	year_label1 = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0|wxBORDER_SIMPLE );
-	year_label1->Wrap( -1 );
-	year_label1->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
-	year_label1->SetMinSize( wxSize( 100,-1 ) );
+	gbSizer1->Add( title_label, wxGBPosition( 0, 2 ), wxGBSpan( 1, 3 ), wxALL, 5 );
 
-	gb_sizer1->Add( year_label1, wxGBPosition( 0, 3 ), wxGBSpan( 1, 1 ), wxALL, 5 );
+	year_label = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	year_label->Wrap( -1 );
+	year_label->SetFont( wxFont( 14, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Arial") ) );
+
+	gbSizer1->Add( year_label, wxGBPosition( 0, 5 ), wxGBSpan( 1, 1 ), wxALL, 5 );
+
+	rated_label = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	rated_label->Wrap( -1 );
+	rated_label->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
+
+	gbSizer1->Add( rated_label, wxGBPosition( 1, 4 ), wxGBSpan( 1, 1 ), wxALL, 5 );
+
+	runtime_label = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	runtime_label->Wrap( -1 );
+	runtime_label->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
+
+	gbSizer1->Add( runtime_label, wxGBPosition( 1, 5 ), wxGBSpan( 1, 1 ), wxALL, 5 );
+
+	genre_label = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 270,-1 ), 0 );
+	genre_label->Wrap( -1 );
+	genre_label->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
+
+	gbSizer1->Add( genre_label, wxGBPosition( 1, 2 ), wxGBSpan( 1, 2 ), wxALL, 5 );
+
+	directors_label = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 400,-1 ), 0 );
+	directors_label->Wrap( -1 );
+	directors_label->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
+
+	gbSizer1->Add( directors_label, wxGBPosition( 2, 3 ), wxGBSpan( 1, 3 ), wxALL, 5 );
+
+	m_staticText81 = new wxStaticText( this, wxID_ANY, wxT("Directors:"), wxDefaultPosition, wxSize( -1,-1 ), 0 );
+	m_staticText81->Wrap( -1 );
+	m_staticText81->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Arial") ) );
+
+	gbSizer1->Add( m_staticText81, wxGBPosition( 2, 2 ), wxGBSpan( 1, 1 ), wxALL, 5 );
+
+	m_staticText9 = new wxStaticText( this, wxID_ANY, wxT("Actors:"), wxDefaultPosition, wxSize( -1,-1 ), 0 );
+	m_staticText9->Wrap( -1 );
+	m_staticText9->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Arial") ) );
+
+	gbSizer1->Add( m_staticText9, wxGBPosition( 3, 2 ), wxGBSpan( 1, 1 ), wxALL, 5 );
+
+	actors_label = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 400,-1 ), 0 );
+	actors_label->Wrap( -1 );
+	actors_label->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
+
+	gbSizer1->Add( actors_label, wxGBPosition( 3, 3 ), wxGBSpan( 1, 3 ), wxALL, 5 );
+
+	m_staticText10 = new wxStaticText( this, wxID_ANY, wxT("Awards:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText10->Wrap( -1 );
+	m_staticText10->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Arial") ) );
+
+	gbSizer1->Add( m_staticText10, wxGBPosition( 4, 2 ), wxGBSpan( 1, 1 ), wxALL, 5 );
+
+	awards_label = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	awards_label->Wrap( -1 );
+	awards_label->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
+
+	gbSizer1->Add( awards_label, wxGBPosition( 4, 3 ), wxGBSpan( 1, 1 ), wxALL, 5 );
 
 
-	gb_sizer1->Add( 0, 40, wxGBPosition( 1, 1 ), wxGBSpan( 1, 1 ), wxEXPAND, 5 );
 
-	genre_label1 = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0|wxBORDER_SIMPLE );
-	genre_label1->Wrap( -1 );
-	genre_label1->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
-	genre_label1->SetMinSize( wxSize( 200,-1 ) );
+	metascore_label = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	metascore_label->Wrap( -1 );
+	metascore_label->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
 
-	gb_sizer1->Add( genre_label1, wxGBPosition( 2, 1 ), wxGBSpan( 1, 1 ), wxALL, 5 );
+	gbSizer1->Add( metascore_label, wxGBPosition( 5, 3 ), wxGBSpan( 1, 1 ), wxALL, 5 );
 
-	rated_label1 = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0|wxBORDER_SIMPLE );
-	rated_label1->Wrap( -1 );
-	rated_label1->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
-	rated_label1->SetMinSize( wxSize( 150,-1 ) );
+	m_staticText22 = new wxStaticText( this, wxID_ANY, wxT("IMDBRating:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText22->Wrap( -1 );
+	m_staticText22->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Arial") ) );
 
-	gb_sizer1->Add( rated_label1, wxGBPosition( 2, 2 ), wxGBSpan( 1, 1 ), wxALL, 5 );
+	gbSizer1->Add( m_staticText22, wxGBPosition( 6, 2 ), wxGBSpan( 1, 1 ), wxALL, 5 );
 
-	runtime_label1 = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0|wxBORDER_SIMPLE );
-	runtime_label1->Wrap( -1 );
-	runtime_label1->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
-	runtime_label1->SetMinSize( wxSize( 100,-1 ) );
+	imdb_label = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	imdb_label->Wrap( -1 );
+	imdb_label->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
 
-	gb_sizer1->Add( runtime_label1, wxGBPosition( 2, 3 ), wxGBSpan( 1, 1 ), wxALL, 5 );
+	gbSizer1->Add( imdb_label, wxGBPosition( 6, 3 ), wxGBSpan( 1, 1 ), wxALL, 5 );
 
-	m_plot_label1 = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0|wxBORDER_SIMPLE );
-	m_plot_label1->Wrap( 300 );
-	m_plot_label1->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
-	m_plot_label1->SetMinSize( wxSize( 300,100 ) );
+	plot_label = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 500,100 ), 0 );
+	plot_label->Wrap( 1 );
+	plot_label->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial") ) );
 
-	gb_sizer1->Add( m_plot_label1, wxGBPosition( 3, 1 ), wxGBSpan( 1, 3 ), wxALL, 5 );
+	gbSizer1->Add( plot_label, wxGBPosition( 7, 2 ), wxGBSpan( 2, 4 ), wxALL, 5 );
 
     //IMAGE LOGIC
 
-    //m_bitmap = new wxStaticBitmap(this, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxSize(202,300), 0 );
-    
-    //m_html_win = new wxHtmlWindow( this, wxID_ANY, wxDefaultPosition, wxSize(202,300),  wxHW_NO_SELECTION|wxHW_SCROLLBAR_NEVER );
-    //m_html_win = new HtmlWindow(this);
-    //m_html_win->LoadPage(wxT("https://m.media-amazon.com/images/M/MV5BMjUyNTA3MTAyM15BMl5BanBnXkFtZTgwOTEyMTkyMjE@._V1_SX300.jpg"));
     image_panel = new ImagePanel(this, wxT("../img/test1.png"), wxBITMAP_TYPE_PNG);
-    //image_panel = new ImagePanel(this, )
-    image_panel->SetMinSize(wxSize( 202,300));
-    //image_panel->SetBackgroundColour( wxColour(203, 118, 120));
 
-    gb_sizer1->Add(image_panel, wxGBPosition(0, 0), wxGBSpan(3, 1), wxALL, 5);
+    image_panel->SetMinSize(wxSize(200,300));
+    image_panel->SetMaxSize(wxSize(200,300));
+
+    gbSizer1->Add( image_panel, wxGBPosition( 0, 0 ), wxGBSpan( 8, 2 ), wxALL, 5 );
 
     //
+	bSizer1->Add( gbSizer1, 1, wxEXPAND, 5 );
 
-
-
-
-
-    b_sizer->Add(gb_sizer1, 1, wxEXPAND, 5);
-
-    this->SetSizer(b_sizer);
-    this->Layout();
+	this->SetSizer( bSizer1 );
+	this->Layout();
 
     this->Centre(wxBOTH);
 }
@@ -170,22 +214,6 @@ void ImagePanel::Render(wxDC&  dc)
     dc.DrawBitmap( _image, 0, 0, false );
 }
 
-
-// MainFrame::MainFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(width, height))
-// {
-//     wxPanel* panel = new wxPanel(this);
-//     wxButton* searchButton = new wxButton(panel, wxID_ANY, "Search", wxPoint(150,50), wxSize(100,35));
-//     searchbutton->Bind(wxEVT_SLIDER, &MainFrame::OnButtonClicked, this);
-//     wxStaticText* staticText = new wxStaticText(panel, wxID_ANY, "Type the name of a movie to find the closest result", wxPoint(120,150));
-//     wxTextCtrl* textCtrl = new wxTextCtrl(panel, wxID_ANY, "Type here!", wxPoint(500, 145), wxSize(200, -1));
-
-//     wxGauge* gauge = new wxGauge(panel, wxID_ANY, 100, wxPoint(500,255), wxSize(200,-1));
-//     gauge->SetValue(50);
-//     // int idTextXtrl = 1;
-//     // _userTextCtrl = new wxTextCtrl(ctrlPanel, idTextXtrl, "", wxDefaultPosition, wxSize(width, 50), wxTE_PROCESS_ENTER, wxDefaultValidator, wxTextCtrlNameStr);
-
-// }
-
 void AppFrame::OnButtonClick(wxCommandEvent& evt) {
     //Implement movie search
     //std::thread t1 = std::thread(Timer(), this);
@@ -209,17 +237,37 @@ void AppFrame::OnButtonClick(wxCommandEvent& evt) {
 
         auto json_title = object["Title"].get<std::string>();
         auto json_year = object["Year"].get<std::string>();
-        auto json_genre = object["Genre"].get<std::string>();
         auto json_rated = object["Rated"].get<std::string>();
         auto json_runtime = object["Runtime"].get<std::string>();
+        auto json_genre = object["Genre"].get<std::string>();
+        auto json_director = object["Director"].get<std::string>();
+        auto json_actors = object["Actors"].get<std::string>();
         auto json_plot = object["Plot"].get<std::string>();
+        auto json_awards = object["Awards"].get<std::string>();
+        auto json_metascore = object["Metascore"].get<std::string>();
+        auto json_imdb = object["imdbRating"].get<std::string>();
+        auto json_image_url = object["Poster"].get<std::string>();
 
-        AppFrame::SetTitle(wxString(json_title));
-        AppFrame::SetYear(wxString(json_year));
-        AppFrame::SetGenre(wxString(json_genre));
-        AppFrame::SetRated(wxString(json_rated));
-        AppFrame::SetRuntime(wxString(json_runtime));
-        AppFrame::SetPlot(wxString(json_plot));
+        //Image handler
+        std::string image_path = ImageManager::DownloadImageToTMP(json_title, json_image_url);
+        AppFrame::GetImagePanel()->_image.LoadFile(image_path, wxBITMAP_TYPE_JPEG);
+
+
+        Refresh();
+
+        AppFrame::title_label->SetLabelText(wxString(json_title));
+        AppFrame::year_label->SetLabelText(wxString(json_year));
+        AppFrame::rated_label->SetLabelText(wxString(json_rated));
+        AppFrame::runtime_label->SetLabelText(wxString(json_runtime));
+        AppFrame::genre_label->SetLabelText(wxString(json_genre));
+        AppFrame::directors_label->SetLabelText(wxString(json_director));
+        AppFrame::actors_label->SetLabelText(wxString(json_actors));
+        AppFrame::plot_label->SetLabelText(wxString(json_plot));
+        AppFrame::awards_label->SetLabelText(wxString(json_awards));
+        AppFrame::metascore_label->SetLabelText(wxString(json_metascore));
+        AppFrame::imdb_label->SetLabelText(wxString(json_imdb));
+
+        //For the plot text to work correctly
         AppFrame::Wrap(450);
 
 

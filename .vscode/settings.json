@@ -64,7 +64,16 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "typeinfo": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "any": "cpp",
+        "hash_set": "cpp",
+        "codecvt": "cpp",
+        "forward_list": "cpp",
+        "unordered_set": "cpp",
+        "ranges": "cpp",
+        "valarray": "cpp",
+        "complex": "cpp",
+        "cinttypes": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
