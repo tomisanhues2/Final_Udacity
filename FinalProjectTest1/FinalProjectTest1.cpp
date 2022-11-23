@@ -63,7 +63,7 @@ AppFrame::AppFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title, wxDef
 
 	gbSizer1->Add( m_staticText2, wxGBPosition( 5, 2 ), wxGBSpan( 1, 1 ), wxALL, 5 );
 
-	title_label = new wxStaticText( this, wxID_ANY, wxT("title_label1"), wxDefaultPosition, wxSize( 400,-1 ), 0 );
+	title_label = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 400,-1 ), 0 );
 	title_label->Wrap( -1 );
 	title_label->SetFont( wxFont( 14, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Arial") ) );
 
@@ -157,7 +157,7 @@ AppFrame::AppFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, title, wxDef
 
     //IMAGE LOGIC
 
-    image_panel = new ImagePanel(this, wxT("../img/test1.png"), wxBITMAP_TYPE_PNG);
+    image_panel = new ImagePanel(this, wxT("../img/default.png"), wxBITMAP_TYPE_PNG);
 
     image_panel->SetMinSize(wxSize(200,300));
     image_panel->SetMaxSize(wxSize(200,300));
