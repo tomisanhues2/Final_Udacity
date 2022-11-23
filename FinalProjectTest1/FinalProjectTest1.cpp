@@ -1,5 +1,4 @@
 ﻿// FinalProjectTest1.cpp : Defines the entry point for the application.
-//
 
 #include "FinalProjectTest1.h"
 
@@ -186,37 +185,27 @@ END_EVENT_TABLE()
 ImagePanel::ImagePanel(wxFrame* parent, wxString file, wxBitmapType format) :
 wxPanel(parent)
 {
-    // load the file... ideally add a check to see if loading was successful
     _image.LoadFile(file, format);
 }
 
 void ImagePanel::PaintEvent(wxPaintEvent & evt)
 {
-    // depending on your system you may need to look at double-buffered dcs
     wxPaintDC dc(this);
     Render(dc);
 }
 
 void ImagePanel::PaintNow()
 {
-    // depending on your system you may need to look at double-buffered dcs
     wxClientDC dc(this);
     Render(dc);
 }
 
-/*
- * Here we do the actual rendering. I put it in a separate
- * method so that it can work no matter what type of DC
- * (e.g. wxPaintDC or wxClientDC) is used.
- */
 void ImagePanel::Render(wxDC&  dc)
 {
     dc.DrawBitmap( _image, 0, 0, false );
 }
 
 void AppFrame::OnButtonClick(wxCommandEvent& evt) {
-    //Implement movie search
-    //std::thread t1 = std::thread(Timer(), this);
     try
     {   
         std::string url = std::string(AppFrame::GetSearchBox().mb_str());
@@ -270,55 +259,8 @@ void AppFrame::OnButtonClick(wxCommandEvent& evt) {
         //For the plot text to work correctly
         AppFrame::Wrap(450);
 
-
-
-
-        //obj::Movie m{
-        //    temp["Title"].get<std::string>(),
-        //    temp["Year"].get<std::string>()
-        //};
-
-        //std::cout << m.title << '\n';
-
-
     } catch (const std::exception& e)
     {
         std::cerr << "Request failed, error: " << e.what() << '\n';
     }
 }
-
-
-/*
-// int main()
-// {
-
-//     try
-//     {
-//         http::Request request{ DATA_REQUEST_URL_START + "t=The+imitation+game" };
-
-//         const auto response = request.send("GET");
-
-//         std::string JSON_string = std::string{ response.body.begin(), response.body.end()};
-
-//         json temp = json::parse(JSON_string);
-
-//         std::cout << temp << '\n';
-
-//         obj::Movie m{
-//             temp["Title"].get<std::string>(),
-//             temp["Year"].get<std::string>()
-//         };
-
-//         std::cout << m.title << '\n';
-
-
-//     } catch (const std::exception& e)
-//     {
-//         std::cerr << "Request failed, error: " << e.what() << '\n';
-//     }
-
-
-// 	return 0;
-// }
-
-*/

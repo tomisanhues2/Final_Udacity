@@ -94,18 +94,6 @@ public:
     {
       std::cout << "Saved the image!" << std::endl;
     }
-
-    // wxImage image;
-    // wxURL url("https://m.media-amazon.com/images/M/MV5BMjUyNTA3MTAyM15BMl5BanBnXkFtZTgwOTEyMTkyMjE@._V1_SX300.jpg");
-    // if (url.GetError() == wxURL_NOERR)
-    // {
-    //   wxInputStream *in_stream;
-
-    //   in_stream = url.GetInputStream();
-
-    //   image = new wxImage(202, 300, in_stream, true);
-    // }
-
     return outfilename;
   }
 
@@ -138,27 +126,10 @@ private:
     }
     return code;
   }
-  /*CURL *curl;
-  FILE *fp;
-  CURLcode res;
-  std::replace(file_path.begin(), file_path.end(), ' ', '_');
-  std::string outfilename = (tmp_path + "/" + file_path);
-  curl = curl_easy_init();
-  if (curl)
-  {
-    fp = fopen(outfilename.c_str(), "wb");
-    curl_easy_setopt(curl, CURLOPT_URL, url);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
-    res = curl_easy_perform(curl);
-    curl_easy_cleanup(curl);
-    fclose(fp);
-  }
-  std::cout << tmp_path << outfilename << std::endl;
-  return NULL;
-}*/
 };
-
+///////////////////////////////////////////////////////////////////////////////
+/// Class ImagePanel
+///////////////////////////////////////////////////////////////////////////////
 class ImagePanel : public wxPanel
 {
 private:
@@ -238,7 +209,7 @@ public:
 /// Class Timer
 ///////////////////////////////////////////////////////////////////////////////
 
-class Timer
+class Timer //yet not implemented
 {
 private:
   int timer;
