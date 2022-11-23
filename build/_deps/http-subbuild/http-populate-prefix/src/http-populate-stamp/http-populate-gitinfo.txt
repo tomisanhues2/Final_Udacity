@@ -1,3 +1,0 @@
-repository='https://github.com/elnormous/HTTPRequest.git'
-module=''
-tag='origin'
