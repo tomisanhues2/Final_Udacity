@@ -1,13 +1,8 @@
 <div align="center" id="top"> 
-  <img src="./.github/app.gif" alt="Final_Udacity" />
-
   &#xa0;
-
   <!-- <a href="https://final_udacity.netlify.app">Demo</a> -->
 </div>
-
 <h1 align="center">Mediabase</h1>
-
 <p align="center">
   <img alt="Github top language" src="https://img.shields.io/github/languages/top/tomisanhues2/final_udacity?color=56BEB8">
 
@@ -26,11 +21,11 @@
 
 <!-- Status -->
 
-<!-- <h4 align="center"> 
-	🚧  Final_Udacity 🚀 Under construction...  🚧
+<h4 align="center"> 
+	🚧  Mediabase 🚀 Under construction...  🚧
 </h4> 
 
-<hr> -->
+<hr>
 
 <p align="center">
   <a href="#dart-about">About</a> &#xa0; | &#xa0; 
@@ -38,8 +33,8 @@
   <a href="#rocket-technologies">Technologies</a> &#xa0; | &#xa0;
   <a href="#white_check_mark-requirements">Requirements</a> &#xa0; | &#xa0;
   <a href="#checkered_flag-starting">Starting</a> &#xa0; | &#xa0;
-  <a href="#memo-license">License</a> &#xa0; | &#xa0;
-  <a href="https://github.com/{{YOUR_GITHUB_USERNAME}}" target="_blank">Author</a>
+  <a href="#usage">Usage</a> &#xa0; | &#xa0;
+  <a href="#documentation">Documentation</a>
 </p>
 
 <br>
@@ -54,16 +49,18 @@ This application utilizes [OMDbAPI](https://www.omdbapi.com/) to generate GET re
 ## :sparkles: Features ##
 
 Obtain the following information for any movie;\
-:heavy_check_mark: Title;\
-:heavy_check_mark: Year;\
-:heavy_check_mark: Runtime;\
-:heavy_check_mark: Director;\
-:heavy_check_mark: Genre;\
-:heavy_check_mark: Actors;\
-:heavy_check_mark: Plot;\
-:heavy_check_mark: Awards;\
-:heavy_check_mark: Metascore;\
-:heavy_check_mark: IMDBRating;
+:heavy_check_mark: Title\
+:heavy_check_mark: Year\
+:heavy_check_mark: Runtime\
+:heavy_check_mark: Director\
+:heavy_check_mark: Genre\
+:heavy_check_mark: Actors\
+:heavy_check_mark: Plot\
+:heavy_check_mark: Awards\
+:heavy_check_mark: Metascore\
+:heavy_check_mark: IMDBRating
+
+[![image.png](https://i.postimg.cc/d02m7HKC/image.png)](https://postimg.cc/HJL7RtnW)
 
 ## :rocket: Technologies ##
 
