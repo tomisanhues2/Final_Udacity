@@ -78,6 +78,8 @@ The following tools were used in this project:
 
 Before starting :checkered_flag:, you need to have [CURL](https://github.com/curl/curl), [OpenCV](https://github.com/opencv/opencv), [wxWidgets](https://github.com/wxWidgets/wxWidgets) and [LibCURL](https://curl.se/libcurl/) installed.
 
+# !Make sure your cmake is at least version 3.14!
+
 cmake will attempt to download nlohmann_json and HTTPRequest on its own
 
 
